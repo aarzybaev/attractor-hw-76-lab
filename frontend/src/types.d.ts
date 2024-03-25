@@ -3,7 +3,6 @@ export interface ApiMessage {
   message: string;
   createdAt: string;
 }
-
 export interface Message extends ApiMessage{
   id: string;
 }
