@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import { Message, messageWithoutDate } from '../../types';
 import axiosApi from '../../axiosApi';
-//import dayjs from 'dayjs';
+import dayjs from 'dayjs';
 
 const Messages = () => {
   const [messagesState, setMessagesState] = useState<Message[]>([]);
@@ -15,10 +15,12 @@ const Messages = () => {
 
       if (data.length) {
         dt = data[data.length - 1].createdAt;
-        setMessagesState(prevState => ([
-          ...prevState,
-          ...data
-        ]));
+        setMessagesState(prevState => {
+            const newArr = prevState.map(item => ({...item}));
+            return [...newArr, ...data]
+              .sort((a, b) => dayjs(b.createdAt).unix() - dayjs(a.createdAt).unix());
+          }
+        );
       }
     } catch (e) {
       console.error(e);
@@ -39,7 +41,11 @@ const Messages = () => {
   };
 
   const onFormSubmit = async (item: messageWithoutDate) => {
-    await createMessage(item);
+    try {
+      await createMessage(item);
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   return (
