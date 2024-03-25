@@ -41,11 +41,16 @@ const Messages = () => {
   };
 
   const onFormSubmit = async (item: messageWithoutDate) => {
-    try {
-      await createMessage(item);
-    } catch (e) {
-      console.error(e);
+    if (item.author.trim() && item.message.trim()) {
+      try {
+        await createMessage(item);
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      window.alert('White spaces not allowed!');
     }
+
   };
 
   return (
