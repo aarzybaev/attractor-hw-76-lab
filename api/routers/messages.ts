@@ -4,7 +4,6 @@ import {MessageWithoutDate} from '../types';
 
 const messagesRouter = express.Router();
 
-
 messagesRouter.get('/', async (req: Request, res: Response) => {
   const messages = await fileDb.getItems();
   const datetime = req.query.datetime as string;
@@ -27,7 +26,6 @@ messagesRouter.get('/', async (req: Request, res: Response) => {
     return res.json(messages.slice(-30));
   }
 });
-
 
 messagesRouter.post('/', async (req: Request, res: Response) => {
   const author = req.body.author;
